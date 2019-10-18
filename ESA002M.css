@@ -1,0 +1,18 @@
+body{margin:0;}
+.header, .contents, .footer{
+    margin:0px;
+    padding:5px 10px;
+}
+.header{border-bottom: 1px solid #bdbdbd;}
+.footer{border-top: 1px solid #bdbdbd;}
+.contents{padding:20px;}
+.toolbar > div {
+    display: inline;
+}
+table, th, td{
+    border:1px solid #c6c6c6;
+    border-spacing: 0 0;                
+}
+td{
+    padding:10px;
+}

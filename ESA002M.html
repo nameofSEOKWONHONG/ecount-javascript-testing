@@ -1,0 +1,348 @@
+<html>
+    <head>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+        <script src="./js/jquery.prototype.string.js"></script>
+    </head>
+    <body>
+        <!-- <div id="mainPage">
+            <div class="header">
+                <div class="toolbar">
+                    <div class="control">거래처등록</div>
+                    <div class="control"><button>Option</button></div>
+                </div>
+            </div>
+            <div class="contents">
+                <table class="form">
+                    <tr>
+                        <td>거래처코드</td>
+                        <td><div class="control"><input type="text" data-cid="BUSINESS_NO" data-cindex="0"></div></td>
+                    </tr>
+                    <tr>
+                        <td>거래처코드구분</td>
+                        <td>
+                            <div class="control">
+                                <input type="radio" name="G_GUBUN_CUST" value="01" data-cid="G_GUBUN" data-cindex="0"> 사업자등록번호
+                                <input type="radio" name="G_GUBUN_CUST" value="02" data-cid="G_GUBUN" data-cindex="1"> 비사업자(내국인)
+                                <input type="radio" name="G_GUBUN_CUST" value="03" data-cid="G_GUBUN" data-cindex="2"> 비사업자(외국인)
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>외화거래처</td>
+                        <td>
+                            <div class="control">
+                                <select data-cid="FOREIGN_FLAG" data-cindex="0">
+                                    <option value="0">사용안함</option>
+                                    <option value="1">USD</option>
+                                    <option value="2">중국원</option>
+                                    <option value="add">추가</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>                    
+                </table>
+            </div>
+            <div class="footer">
+                <div class="toolbar">
+                    <div class="control"><button>New</button></div>
+                    <div class="control"><button>Save</button></div>
+                    <div class="control"><button>Reset</button></div>
+                </div>
+            </div>
+        </div>         -->
+        
+        <script src="./Controls/Control.js"></script>
+        <script src="./Controls/Input.js"></script>
+        <script src="./Controls/Radio.js"></script>
+        <script src="./Controls/RadioEx.js"></script>
+        <script src="./Controls/Page.js"></script>
+        <script src="./Pages/ESA002M.js"></script>
+        <script>
+
+        </script>
+        <script type="text/javascript">
+            window.onload = function() 
+            {
+                var $body = $('body');
+                $body.append('<div id="mainPage"></div>');
+                var $mainpage = $('#mainPage');
+                var esa002m = new ESA002M($mainpage);
+                esa002m.createHeader();
+                esa002m.createContents();
+                esa002m.createFooter();
+
+                // var inputmap = [
+                //     new Input({"id":"t1", "name":"t1", "value":"asdfas", "type":"text"}),
+                //     new Input({"id":"t2", "name":"t2", "value":"asdfas", "type":"text"}),
+                //     new Input({"id":"t3", "name":"t3", "value":"asdfas", "type":"text"}),
+                //     new Input({"id":"t4", "name":"t4", "value":"asdfas", "type":"text"}),
+                //     new Input({"id":"t5", "name":"t5", "value":"asdfas", "type":"text"}),
+                // ];
+
+                // inputmap.forEach(function(item){
+                //     item.render();
+                // });
+
+                // var buttonHandler = function() {
+                //     alert('1');
+                // };
+                // var input = new Input({"id":"t5", "name":"t5", "value":"asdfas", "type":"button", "func":buttonHandler});
+                // input.render();
+
+                // var radioSetter = 
+                // {
+                //     "id":"custGugub",
+                //     "name":"CUST_GUBUN",
+                //     "items":[
+                //         {"value":"0","text":"사업자등록번호"},
+                //         {"value":"1","text":"비사업자(내국인)"},
+                //         {"value":"2","text":"비사업자(외국인)"},
+                //     ]
+                // };
+
+                // var radio = new RadioEx(radioSetter);
+                // radio.render();
+
+                // // var $root = $('body');
+                // // var cfac = new controlFactory($root);
+                // // cfac.createText().createRadio('거래처등록');
+
+                // var mainPage2 = document.createElement('div');
+                // mainPage2.setAttribute('id', 'mainPage2');
+                // document.body.append(mainPage2);
+
+                // var header = document.createElement('div');
+                // header.setAttribute('class', 'header');
+                // header.id = 'header';
+                // mainPage2.appendChild(header);
+
+                // var contents = document.createElement('div');
+                // contents.setAttribute('class', 'contents');
+                // mainPage2.appendChild(contents);
+                
+                // var footer = document.createElement('div');
+                // footer.setAttribute('class', 'footer');
+                // mainPage2.appendChild(footer);
+
+                // makeHeader(header);
+                // makeContents(contents);
+                // makeFooter(footer);
+
+                var fileref=document.createElement("link")
+                fileref.setAttribute("rel", "stylesheet")
+                fileref.setAttribute("type", "text/css")
+                fileref.setAttribute("href", "./ESA002M.css");
+
+                document.getElementsByTagName("body")[0].appendChild(fileref);
+            }
+
+            function makeHeader(header) {
+                var toolbar = document.createElement('div');
+                toolbar.setAttribute('class', 'toolbar');
+                
+                var control = document.createElement('div');
+                control.setAttribute('class', 'control');
+                control.innerHTML = "거래처 등록";
+                toolbar.appendChild(control);
+
+                var control2 = document.createElement('div');
+                control2.setAttribute('class', 'control');
+                
+                var button = CreateButton('Option', function() {
+                    alert('option');
+                });
+                control2.appendChild(button);                
+                toolbar.appendChild(control2);
+
+                $(header).append(toolbar).trigger('create');
+            }
+        
+            function makeContents(contents) {
+                var tableset = [
+                    {
+                        "name":"거래처코드",
+                        "element_type_name":"input",
+                        "element_type": [{
+                            "element":"input",
+                            "type":"text",
+                            "cid":"BUSINESS_NO",
+                            "cindex":"0",
+                            "name": "BUSINESS_NO",
+                            "value":"",
+                            "text":""
+                        }]
+                    },
+                    {
+                        "name":"거래처구분코드",
+                        "element_type": [
+                            {
+                                "element":"input",
+                                "type":"radio",
+                                "name":"G_GUBUN_CUST",
+                                "value":"01",
+                                "cid":"G_GUBUN",
+                                "cindex":"0",
+                                "text":"사업자등록번호"
+                            },
+                            {
+                                "element":"input",
+                                "type":"radio",
+                                "name":"G_GUBUN_CUST",
+                                "value":"02",
+                                "cid":"G_GUBUN",
+                                "cindex":"1",
+                                "text":"비사업자(내국인)"
+                            },
+                            {
+                                "element":"input",
+                                "type":"radio",
+                                "name":"G_GUBUN_CUST",
+                                "value":"03",
+                                "cid":"G_GUBUN",
+                                "cindex":"2",
+                                "text":"비사업자(외국인)"
+                            },                            
+                        ]      
+                    },
+                    {
+                        "name":"외화거래처",
+                        "element_type": [
+                            {
+                                "element":"select",
+                                "type":"select",
+                                "name":"",
+                                "value":"01",
+                                "cid":"FOREIGN_FLAG",
+                                "cindex":"0",
+                                "text":"",
+                                "options": [
+                                    {
+                                        "value":"0",
+                                        "text":"사용안함"
+                                    },
+                                    {
+                                        "value":"1",
+                                        "text":"USD"
+                                    },
+                                    {
+                                        "value":"2",
+                                        "text":"중국원"
+                                    },
+                                    {
+                                        "value":"3",
+                                        "text":"add"
+                                    },                                                                                                            
+                                ]
+                            }                            
+                        ]   
+                    }
+                ];
+
+                var table = document.createElement('table');
+                table.setAttribute('class', 'form');
+
+                tableset.forEach(element => {                    
+                    var tr = document.createElement("tr");
+                    var td = document.createElement("td");
+                    var td2 = document.createElement("td");
+                    var div = document.createElement('div');
+                    div.setAttribute('class', 'control');
+
+                    if(element.element_type !== null) {
+                        element.element_type.forEach(function(ele) {                            
+                            var ctrlelement = document.createElement(ele.element);
+                            if(ele.element !== 'select') {
+                                if(ele.id !== '' || ele.id !== undefined) {
+                                    ctrlelement.setAttribute('id', ele.id);
+                                }
+                                ctrlelement.setAttribute('type', ele.type);                      
+                                ctrlelement.setAttribute('name', ele.name);
+                                ctrlelement.setAttribute('value', ele.value);
+                                ctrlelement.innerHTML = ele.text;
+                                ctrlelement.setAttribute('id', ele.cid);
+                                ctrlelement.dataset['cid'] = ele.cid;
+                                ctrlelement.dataset['cindex'] = ele.cindex;
+                                                       
+                                if(ele.text !== '') {
+                                    var label = document.createElement('label');
+                                    label.setAttribute('for', ele.name);
+                                    label.innerHTML = ele.text;
+                                    div.appendChild(label);
+                                }
+                            }
+                            else {
+                                ctrlelement.dataset['cid'] = ele.cid;
+                                ctrlelement.dataset['cindex'] = ele.cindex;
+
+                                ele.options.forEach(function(option) {
+                                    var optionElement = document.createElement('option');
+                                    optionElement.innerHTML = option.text;
+                                    optionElement.setAttribute('value', option.value);
+                                    ctrlelement.appendChild(optionElement);
+                                });                              
+                            }
+
+                            div.appendChild(ctrlelement);     
+                        });
+                    }
+
+                    td.innerHTML = element.name;
+                    td2.appendChild(div);
+                    tr.appendChild(td);
+                    tr.appendChild(td2);
+                    
+                    table.appendChild(tr);
+                });
+
+                contents.appendChild(table);
+            }
+
+            function makeFooter(footer) {
+                var toolbar = document.createElement('div');
+                toolbar.setAttribute('class', 'toolbar');
+
+                var controlNew = document.createElement('div');
+                controlNew.setAttribute('class', 'control');
+                var buttonNew = CreateButton('New', function() {
+                    alert('new');
+                });
+                controlNew.appendChild(buttonNew);
+
+                var controlSave = document.createElement('div');
+                controlSave.setAttribute('class', 'control');
+                var buttonSave = CreateButton('Save', function() {
+                    var BUSINESS_NO = $("#BUSINESS_NO");
+                    alert(BUSINESS_NO.val());
+                });
+                controlSave.appendChild(buttonSave);
+
+                var controlReset = document.createElement('div');
+                controlReset.setAttribute('class', 'control');
+                var buttonReset = CreateButton('Reset', function() {
+                    alert('reset');
+                });
+                controlReset.appendChild(buttonReset);                                
+
+                toolbar.appendChild(controlNew);
+                toolbar.appendChild(controlSave);
+                toolbar.appendChild(controlReset);
+                
+                $(footer).append(toolbar).trigger('create');
+            }
+
+            // function CreateButton(text, callback) {
+            //     var button = document.createElement('button');
+            //     button.addEventListener('click', callback);
+            //     button.innerHTML = text;
+            //     return button;
+            // }
+            var CreateButton = function(text, callback) {
+                var button = document.createElement('button');
+                button.addEventListener('click', callback);
+                button.innerHTML = text;
+                return button;
+            }            
+        </script>
+    </body>
+</html>
