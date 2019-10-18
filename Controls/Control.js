@@ -5,22 +5,37 @@ class Control {
         this.options = options;
         this.template = this.getTemplate();
     }
+
+    getHtml() {
+        return $(this.domElement).outerHTML();
+    }
+
     render(root) {
-        this.$element = $(this.template);
-        var rootEle = $(root)[0].$element;
+        this.domElement = $(this.template);
+
+        if(root === null) return null;
+        
+        var rootEle = $(root)[0].domElement;
         if(rootEle !== null && rootEle !== undefined) {
-           $(rootEle).append(this.$element);
+           $(rootEle).append(this.domElement);
         }
         else {
-            $(root).append(this.$element);
+            $(root).append(this.domElement);
         }
+        
+        return this;
+    }
 
-        if(this.options === undefined) return false;
-        if(this.options.type === 'button') {
-            if(this.options.func !== null) {
-                this.$element.bind('click', this.options.func);
-            }
-        }
+    removeDomElement() {
+        $(this.domElement).remove();
+    }
+    registerEvent(eventType, func) {
+        $(this.domElement).bind(eventType, func);
+        return this;
+    }
+
+    getDomElement() {
+        return this.domElement;
     }
 
     getTemplate() {
@@ -31,6 +46,7 @@ class Control {
 class Div extends Control {
     constructor(options) {
         super(options);
+        this.controlName = 'div';
     }
 
     getTemplate(){
@@ -41,15 +57,29 @@ class Div extends Control {
 class Button extends Control {
     constructor(options) {
         super(options);
+        this.controlName = 'button';
     }
+
     getTemplate(){
         return `<button id="${this.options.id}" name="${this.options.name}">${this.options.text}</button>`;
     }    
 }
 
+class Label extends Control {
+    constructor(options) {
+        super(options);
+        this.controlName = 'label';
+    }
+
+    getTemplate() {        
+        return `<label>${this.options.text}</label>`;
+    }
+}
+
 class Input extends Control {
     constructor(options) {
         super(options);
+        this.controlName = 'input';
     }
     //render 필요 정보
     //id, name, value
@@ -61,6 +91,7 @@ class Input extends Control {
 class Radio extends Control {
     constructor(options) {
         super(options);
+        this.controlName = 'radio';
     }
 
     getTemplate(){
@@ -71,6 +102,7 @@ class Radio extends Control {
 class RadioEx extends Control {
     constructor(options) {
         super(options);
+        this.controlName = 'radio';
     }
 
     getTemplate() {
@@ -93,21 +125,18 @@ class RadioEx extends Control {
 class TableData extends Control {
     constructor(options){
         super(options);
+        this.controlName = 'td';
     }
-
+    
     getTemplate() {
-        if(this.options.type === 'text') {
-            return `<td>${this.options.text}</td>`;
-        }
-        else if(this.options.type === 'div') {
-            return `<td></td>`;
-        }
+        return `<td></td>`;
     }
 }
 
 class TableRow extends Control {
     constructor(options){
         super(options);
+        this.controlName = 'tr';
     }
 
     getTemplate() {
@@ -118,6 +147,7 @@ class TableRow extends Control {
 class Table extends Control {
     constructor(options) {
         super(options);
+        this.controlName = 'table';
     }
 
     getTemplate() {
@@ -125,6 +155,3 @@ class Table extends Control {
     }    
 }
 
-jQuery.fn.outerHTML = function() {
-    return jQuery('<div />').append(this.eq(0).clone()).html();
-};

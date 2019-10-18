@@ -12,26 +12,42 @@ class ESA002M extends Page {
         var control2 = new Div({class:"control", text:""});
         control1.render(toolbar);
         control2.render(toolbar);
-        var option = new Input({"id":"t5", "name":"t5", "value":"asdfas", "type":"button", "func":function (e) {
-            console.log('111');
-        }});
-        option.render(control2);
+
+        var option = new Input({id:"option", name:"option", value:"Option", type:"button"});
+        option.render(control2)
+              .registerEvent('click', function(e){ 
+                  alert(this.name);
+              });
     }
 
     createContents() {
         var table = new Table({class:"form"});
         table.render(this.contents);
+        
         var tablerow = new TableRow();
         tablerow.render(table);
-        var tabledata = new TableData({
-            type:"text",
-            text:"거래처코드",
-        });
-        var tabledata2 = new TableData({
-            type:"input",
-            element:new Div({class:"control", text:""})
-        });        
-        tabledata.render(tablerow);
+        
+        var label = new Label({text:"거래처코드"});
+        label.render(null);
+        var tdLabel = new TableData({});
+        tdLabel.render(tablerow);
+        label.render(tdLabel);
+        var input =new Input({id:"t", name:"t", value:"asdfas", type:"text"});
+        var div = new Div({class:"control", text:""});
+        div.render(null);
+        var tdDiv = new TableData({});
+        tdDiv.render(tablerow);
+        div.render(tdDiv);
+        input.render(div)
+            .registerEvent('focusout', function(e) {
+                this.style = 'background-color:yellow;';
+            })
+             .registerEvent('focusin', function(e) {
+                this.style = 'background-color:gray;';
+            });
+        // input.registerEvent('focusin', function(e) {
+        //     this.style = 'background-color:gray;';
+        // });
     }
 
     createFooter() {
